@@ -38,7 +38,13 @@ def save_to_excel(data):
     ws = wb.active
     ws.append([data["出廠日期"], data["入廠日期"], data["名稱"], data["原因"]])
     wb.save(EXCEL_FILE)
+app = Flask(__name__)
 
+LINE_CHANNEL_ACCESS_TOKEN = os.getenv("CHANNEL_ACCESS_TOKEN")
+LINE_CHANNEL_SECRET = os.getenv("CHANNEL_SECRET")
+
+line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(LINE_CHANNEL_SECRET)
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
